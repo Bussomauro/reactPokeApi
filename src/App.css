@@ -1,38 +1,66 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 25px;
 }
 
-.App-link {
-  color: #61dafb;
+.btn_container {
+  /* border: 3px solid green; */
+  width: 250px;
+  display: flex;
+  justify-content: space-between;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card_container {
+  /* border: 4px solid; */
+  display: flex;
+  width: 560px;
+  height: 300px;
+  margin-top: 35px;
+  position: relative;
+}
+
+.card_container .card:nth-child(1) {
+  position: absolute;
+  left: 0;
+  z-index: 3;
+  transform: rotate(-7deg) translateY(15px);
+}
+.card_container .card:nth-child(1):hover {
+  transition: 100ms;
+  transform: rotate(-5deg) translateY(0px) translateX(-15px);
+  scale: 120%;
+}
+
+.card_container .card:nth-child(2) {
+  position: absolute;
+  left: 180px;
+  transform: translateY(5px);
+  z-index: 2;
+}
+.card_container .card:nth-child(2):hover {
+  transition: 100ms;
+  transform: rotate(0deg) translateY(5px);
+  scale: 120%;
+  z-index: 3;
+}
+.card_container .card:nth-child(3) {
+  position: absolute;
+  left: 360px;
+  z-index: 1;
+  transform: rotate(7deg) translateY(15px);
+}
+.card_container .card:nth-child(3):hover {
+  transition: 100ms;
+  transform: rotate(5deg) translateY(0px) translateX(15px);
+  scale: 120%;
+  z-index: 3;
+}
+.card1 {
+  transform: rotate(5deg) translate(140px);
+}
+
+.card2 {
+  transform: rotate(3deg) translate(70px);
 }

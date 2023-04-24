@@ -1,33 +1,75 @@
-import { useState, useEffect } from "react";
-function App() {
-  let [pokeId, setPokeId] = useState(1);
-  let [pokeName, setPokeName] = useState("");
+//Components
+import { Button } from "./components/Button";
+import { Card } from "./components/Card";
+//Styles
+import "./App.css";
+import { TiArrowLeftOutline } from "react-icons/ti";
+import { TiArrowRightOutline } from "react-icons/ti";
+//Hooks
+import { useEffect, useState } from "react";
 
-  function increaseId() {
-    setPokeId(pokeId + 1);
-    console.log("valor Id antes del render: " + pokeId);
+const App = () => {
+  const [pokemonId, setPokemonId] = useState(1);
+  const [pokemonEvolutions, setPokemonEvolutions] = useState([]);
+
+  useEffect(() => {
+    getEvolutions(pokemonId);
+  }, [pokemonId]);
+
+  async function getEvolutions(id) {
+    const response = await fetch(
+      `https://pokeapi.co/api/v2/evolution-chain/${id}/`
+    );
+    const data = await response.json();
+
+    let pokemonEvoArray = [];
+
+    let pokemonLv1 = data.chain.species.name;
+    let pokemonLv1Img = await getPokemonImgs(pokemonLv1);
+
+    pokemonEvoArray.push([pokemonLv1, pokemonLv1Img]);
+
+    if (data.chain.evolves_to.length !== 0) {
+      let pokemonLv2 = data.chain.evolves_to[0].species.name;
+      let pokemonLv2Img = await getPokemonImgs(pokemonLv2);
+      pokemonEvoArray.push([pokemonLv2, pokemonLv2Img]);
+
+      if (data.chain.evolves_to[0].evolves_to.length !== 0) {
+        let pokemonLv3 = data.chain.evolves_to[0].evolves_to[0].species.name;
+        let pokemonLv3Img = await getPokemonImgs(pokemonLv3);
+        pokemonEvoArray.push([pokemonLv3, pokemonLv3Img]);
+      }
+    }
+    setPokemonEvolutions(pokemonEvoArray);
   }
 
-  //aca es donde llamamos a la API
-  useEffect(() => {
-    console.log("valor Id actualizado: " + pokeId);
-    searchPokemon(pokeId);
-  }, [pokeId]);
-
-  let searchPokemon = async (pokeId) => {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokeId}`);
+  async function getPokemonImgs(name) {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
     const data = await response.json();
-    setPokeName(data.name);
-  };
+    return data.sprites.other["official-artwork"].front_default;
+  }
+
+  function prevClick() {
+    pokemonId === 1 ? setPokemonId(1) : setPokemonId(pokemonId - 1);
+  }
+  function nextClick() {
+    setPokemonId(pokemonId + 1);
+  }
 
   return (
-    <>
-      <button onClick={increaseId}>Next</button>
-      <div>
-        {pokeId} - {pokeName}
+    <div className="app">
+      <div className={`card_container card${pokemonEvolutions.length}`}>
+        {pokemonEvolutions.map((pokemon) => (
+          <Card key={pokemon[0]} name={pokemon[0]} img={pokemon[1]} />
+        ))}
       </div>
-    </>
+      <div className="btn_container">
+        <Button icon={<TiArrowLeftOutline />} handleClick={prevClick} />
+        {/* {pokemonName} */}
+        <Button icon={<TiArrowRightOutline />} handleClick={nextClick} />
+      </div>
+    </div>
   );
-}
+};
 
-export default App;
+export { App };

@@ -1,0 +1,41 @@
+.card{
+    border: 7px solid #0a285f;
+    width: 200px;
+    height: 280px;
+    border-radius: 10px;
+    background-color: #FFCC00;
+    box-shadow: 5px 5px 10px whitesmoke;
+    padding: 10px 10px 10px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.card_name{
+    background-color:#EFFCD5;
+    color: #0a285f;
+    text-align: center;
+    width: 186px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    /* padding: 6px; */
+    font-size: larger;
+}
+
+.card_circle{
+    background-color: #0075BE;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    top: 75px;
+    left: 18px;
+}
+
+.card_img{
+    position: absolute;
+    top:67px;
+    z-index: 1;
+    width: 90%;
+}

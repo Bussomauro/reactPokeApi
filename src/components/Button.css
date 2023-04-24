@@ -1,0 +1,19 @@
+.btn_button{
+    background-color: #D5A100;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    font-size: 35px;
+    box-shadow: 2px 2px 3px #0075BE;
+    color: #0a285f;
+    text-align: center;
+}
+.btn_button:active{
+    transform: translate(3px, 3px);
+}
+
+/* .btn_box{
+    border: 2px solid blue;
+} */

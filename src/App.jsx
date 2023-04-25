@@ -7,6 +7,7 @@ import { TiArrowLeftOutline } from "react-icons/ti";
 import { TiArrowRightOutline } from "react-icons/ti";
 //Hooks
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 const App = () => {
   const [pokemonId, setPokemonId] = useState(1);
@@ -16,37 +17,43 @@ const App = () => {
     getEvolutions(pokemonId);
   }, [pokemonId]);
 
-  async function getEvolutions(id) {
-    const response = await fetch(
+  let getEvolutions= async (id)=> {
+    const response = await axios(
       `https://pokeapi.co/api/v2/evolution-chain/${id}/`
     );
-    const data = await response.json();
 
     let pokemonEvoArray = [];
 
-    let pokemonLv1 = data.chain.species.name;
+    let pokemonLv1 = response.data.chain.species.name;
+    let pokemonLv1Type = await getPokemonTypes(pokemonLv1);
     let pokemonLv1Img = await getPokemonImgs(pokemonLv1);
 
-    pokemonEvoArray.push([pokemonLv1, pokemonLv1Img]);
+    pokemonEvoArray.push([pokemonLv1,pokemonLv1Type, pokemonLv1Img]);
 
-    if (data.chain.evolves_to.length !== 0) {
-      let pokemonLv2 = data.chain.evolves_to[0].species.name;
+    if (response.data.chain.evolves_to.length !== 0) {
+      let pokemonLv2 = response.data.chain.evolves_to[0].species.name;
+      let pokemonLv2Type = await getPokemonTypes(pokemonLv2);
       let pokemonLv2Img = await getPokemonImgs(pokemonLv2);
-      pokemonEvoArray.push([pokemonLv2, pokemonLv2Img]);
+      pokemonEvoArray.push([pokemonLv2,pokemonLv2Type, pokemonLv2Img]);
 
-      if (data.chain.evolves_to[0].evolves_to.length !== 0) {
-        let pokemonLv3 = data.chain.evolves_to[0].evolves_to[0].species.name;
+      if (response.data.chain.evolves_to[0].evolves_to.length !== 0) {
+        let pokemonLv3 = response.data.chain.evolves_to[0].evolves_to[0].species.name;
+        let pokemonLv3Type = await getPokemonTypes(pokemonLv3);
         let pokemonLv3Img = await getPokemonImgs(pokemonLv3);
-        pokemonEvoArray.push([pokemonLv3, pokemonLv3Img]);
+        pokemonEvoArray.push([pokemonLv3,pokemonLv3Type, pokemonLv3Img]);
       }
     }
     setPokemonEvolutions(pokemonEvoArray);
   }
 
-  async function getPokemonImgs(name) {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}/`);
-    const data = await response.json();
-    return data.sprites.other["official-artwork"].front_default;
+  let getPokemonTypes= async (name)=> {
+    const response = await axios(`https://pokeapi.co/api/v2/pokemon/${name}/`);
+    return response.data.types[0].type.name;
+  }
+
+  let getPokemonImgs = async (name)=> {
+    const response = await axios(`https://pokeapi.co/api/v2/pokemon/${name}/`);
+    return response.data.sprites.other["official-artwork"].front_default;
   }
 
   function prevClick() {
@@ -60,16 +67,15 @@ const App = () => {
     <div className="app">
       <div className={`card_container card${pokemonEvolutions.length}`}>
         {pokemonEvolutions.map((pokemon) => (
-          <Card key={pokemon[0]} name={pokemon[0]} img={pokemon[1]} />
+          <Card key={pokemon[0]} name={pokemon[0]} type={pokemon[1]} img={pokemon[2]} />
         ))}
       </div>
       <div className="btn_container">
         <Button icon={<TiArrowLeftOutline />} handleClick={prevClick} />
-        {/* {pokemonName} */}
+          <p>{pokemonId}</p> 
         <Button icon={<TiArrowRightOutline />} handleClick={nextClick} />
       </div>
     </div>
   );
 };
-
 export { App };

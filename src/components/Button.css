@@ -1,12 +1,12 @@
 .btn_button{
     background-color: #D5A100;
-    border: none;
+    border: 0.5px solid;
     border-radius: 50%;
     width: 60px;
     height: 60px;
     cursor: pointer;
-    font-size: 35px;
-    box-shadow: 2px 2px 3px #0075BE;
+    font-size: 30px;
+    box-shadow: 3px 3px 10px whitesmoke;
     color: #0a285f;
     text-align: center;
 }

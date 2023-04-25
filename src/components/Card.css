@@ -17,10 +17,10 @@
     text-align: center;
     width: 186px;
     position: absolute;
-    top: 0;
+    top: -15px;
     right: 0;
     /* padding: 6px; */
-    font-size: larger;
+    font-size: 25px;
 }
 
 .card_circle{
@@ -38,4 +38,15 @@
     top:67px;
     z-index: 1;
     width: 90%;
+}
+
+.card_type{
+    color: #0a285f;
+    text-align: center;
+    width: 186px;
+    position: absolute;
+    bottom: -5px;
+    right: 0;
+    /* padding: 6px; */
+    font-size: 20px;
 }
